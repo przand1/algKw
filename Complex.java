@@ -5,11 +5,17 @@ import java.lang.IllegalArgumentException;
 public class Complex {
   private double real;
   private double img;
-  //private double phi;
+  private double modulus;
+  private Argument argument;
 
   public Complex(double real, double img) {
-    this.setReal(real);
-    this.setImg(img);
+    setReal(real);
+    setImg(img);
+    setModulus( Math.sqrt( real*real + img*img ) );
+  }
+  public Complex(double modulus,Argument argument) {
+    setModulus(modulus);
+    setArgument(argument);
   }
   public Complex(Complex a) {
     this(a.getReal(),a.getImg());
@@ -23,14 +29,22 @@ public class Complex {
   //ta instancja = ta instancja + inny Complex
   public void add(Complex a) {
     this.real += a.getReal();
-    this.img += b.getImg();
+    this.img += a.getImg();
+  }
+  // ODEJMOWANIE
+  public static Complex sub(Complex a,Complex b) {
+    return new Complex(a.getReal()-b.getReal(), a.getImg()-b.getImg());
+  }
+  public void sub(Complex a) {
+    this.real -= a.getReal();
+    this.img -= a.getImg();
   }
 
   // MNOŻENIE
   //statyczne - tworzy nowy Complex będący iloczynem dwóch podanych
   public static Complex mul(Complex a, Complex b) {
-    double newR = newRealMul(Complex a, Complex b);
-    double newI = newImgMul(Complex a, Complex b);
+    double newR = newRealMul(a,b);
+    double newI = newImgMul(a,b);
     return new Complex(newR,newI);
   }
   //ta instancja = ta instancja * inny Complex
@@ -39,22 +53,22 @@ public class Complex {
     this.img = newImgMul(this,a);
   }
   //prywatne metody obliczające współczynniki
-  private static newRealMul(Complex a, Complex b) {
+  private static double newRealMul(Complex a, Complex b) {
     return a.getReal()*b.getReal() - a.getImg()*b.getImg();
   }
-  private static newImgMul(Complex a, Complex b) {
+  private static double newImgMul(Complex a, Complex b) {
     return a.getImg()*b.getReal() + a.getReal()*b.getImg();
   }
 
   // SPRZĘŻENIE
   //na tej instancji
-  public void conjugate() {
-    a.setImg( -1 * a.getImg());
+  public void conjugateSelf() {
+    setImg( -1 * getImg());
   }
   //zwraca sprzężoną kopię siebie
   public Complex conjugate() {
     Complex a = new Complex(this);
-    a.conjugate();
+    a.conjugateSelf();
     return a;
   }
 
@@ -62,8 +76,8 @@ public class Complex {
   //statyczne - tworzy nowy Complex będący ilorazem dwóch podanych
   public static Complex div(Complex a, Complex b) {
     checkZero(b);
-    double newR = newRealDiv(Complex a, Complex b);
-    double newI = newImgDiv(Complex a, Complex b);
+    double newR = newRealDiv(a, b);
+    double newI = newImgDiv(a, b);
     return new Complex(newR,newI);
   }
   //ta instancja = ta instancja / inny Complex
@@ -73,14 +87,14 @@ public class Complex {
     this.img = newImgDiv(this,a);
   }
   //prywatne metody obliczające współczynniki
-  private static newRealDiv(Complex a, Complex b) {
+  private static double newRealDiv(Complex a, Complex b) {
     double A = a.getReal();
     double B = a.getImg();
     double C = b.getReal();
     double D = b.getImg();
     return (A*C + B*D) / (C*C + D*D);
   }
-  private static newImgDiv(Complex a, Complex b) {
+  private static double newImgDiv(Complex a, Complex b) {
     double A = a.getReal();
     double B = a.getImg();
     double C = b.getReal();
@@ -88,15 +102,10 @@ public class Complex {
     return (B*C - A*D) / (C*C + D*D);
   }
   //oraz sprawdzenie, czy dzielnik nie jest zerem
-  private void checkZero(Complex b) {
+  private static void checkZero(Complex b) {
     if (b.getReal()==0 && b.getImg()==0) {
       throw new IllegalArgumentException("Can't divide by 0");
     }
-  }
-
-  // MODUŁ
-  public double Modulus() {
-    return Math.sqrt( real*real + img*img );
   }
 
   //TODO postać trygonometryczna
@@ -107,12 +116,37 @@ public class Complex {
     return real;
   }
   public double getImg() {
-    return img;
+    return img;a
+  }
+  public double getModulus() {
+    return modulus;
+  }
+  public Argument getArgument() {
+    return argument;
   }
   public void setReal(double real) {
     this.real = real;
   }
   public void setImg(double img) {
     this.img = img;
+  }
+  public void setModulus(double modulus) {
+    this.modulus = modulus;
+  }
+  public void setArgument(Argument argument) {
+    this.argument = argument;
+  }
+
+  @Override
+  public String toString() {
+    if (getImg()==0) {
+      return String.valueOf(getReal());
+    }
+    else if(getReal()==0) {
+      return getImg()+"i";
+    }
+    else {
+      return getImg() < 0 ? getReal()+" "+getImg()+"i" : getReal()+" + "+getImg()+"i";
+    }
   }
 }

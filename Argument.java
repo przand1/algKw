@@ -9,23 +9,30 @@ public class Argument {
     this.dnm = dnm;
   }
 
-  // public void add(Argument A) {
-  //   this.nm += A.getNm();
-  //   this.dnm += A.getDnm();
-  // }
-  // public void sub(Argument A) {
-  //   this.nm -= A.getNm();
-  //   this.dnm -= A.getDnm();
-  // }
   public static Argument add(Argument A,Argument B) {
     int newNm = A.getNm()*B.getDnm() + B.getNm()*A.getDnm();
     int newDnm = A.getDnm()*B.getDnm();
+    int gcd = GCD(newNm,newDnm);
+    if (gcd > 1) {
+      newNm = newNm / gcd;
+      newDnm = newDnm / gcd;
+    }
     return new Argument(newNm,newDnm);
   }
   public static Argument sub(Argument A,Argument B) {
     int newNm = A.getNm()*B.getDnm() - B.getNm()*A.getDnm();
     int newDnm = A.getDnm()*B.getDnm();
+    int gcd = GCD(newNm,newDnm);
+    if (gcd > 1) {
+      newNm = newNm / gcd;
+      newDnm = newDnm / gcd;
+    }
     return new Argument(newNm,newDnm);
+  }
+
+  private static int GCD(int a, int b) {
+    if (b==0) return a;
+    return GCD(b,a%b);
   }
 
 	public int getNm() {
@@ -42,9 +49,5 @@ public class Argument {
 
 	public void setDnm(int dnm) {
 		this.dnm = dnm;
-	}
-
-	public Argument() {
-		super();
 	}
 }

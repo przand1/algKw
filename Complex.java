@@ -118,7 +118,7 @@ public class Complex {
     }
   }
 
-  //TODO postać trygonometryczna
+  // POTĘGOWANIE
   public Complex pow(int n) {
     Complex C = new Complex(this);
     C.setModulus( Math.pow(this.getModulus(), n) );

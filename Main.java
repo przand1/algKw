@@ -43,5 +43,13 @@ public class Main {
     System.out.println(D);
     System.out.println();
 
+    Complex c1 = new Complex(4,new Argument(2,3));
+    Complex c2 = new Complex(2,new Argument(5,6));
+    System.out.println(c1+" * "+c2+" = ");
+    System.out.println(Complex.mul(c1,c2));
+
+    Complex c3 = c1.pow(4);
+    System.out.println(c1+"^4 = "+c3);
+
   }
 }

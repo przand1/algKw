@@ -19,6 +19,9 @@ public class Complex {
   }
   public Complex(Complex a) {
     this(a.getReal(),a.getImg());
+    if(a.getArgument() != null)
+      setArgument(a.getArgument());
+      setModulus(this.getModulus());
   }
 
   // DODAWANIE
@@ -43,9 +46,12 @@ public class Complex {
   // MNOŻENIE
   //statyczne - tworzy nowy Complex będący iloczynem dwóch podanych
   public static Complex mul(Complex a, Complex b) {
-    double newR = newRealMul(a,b);
-    double newI = newImgMul(a,b);
-    return new Complex(newR,newI);
+    if (a.getArgument() == null && b.getArgument() == null) {
+      double newR = newRealMul(a,b);
+      double newI = newImgMul(a,b);
+      return new Complex(newR,newI);
+    }
+    else return new Complex(a.getModulus()*b.getModulus(), Argument.add(a.getArgument(),b.getArgument()));
   }
   //ta instancja = ta instancja * inny Complex
   public void mul(Complex a) {
@@ -75,10 +81,14 @@ public class Complex {
   //DZIELENIE
   //statyczne - tworzy nowy Complex będący ilorazem dwóch podanych
   public static Complex div(Complex a, Complex b) {
-    checkZero(b);
-    double newR = newRealDiv(a, b);
-    double newI = newImgDiv(a, b);
-    return new Complex(newR,newI);
+    if (a.getArgument() == null && b.getArgument() == null) {
+      checkZero(b);
+      double newR = newRealDiv(a, b);
+      double newI = newImgDiv(a, b);
+      return new Complex(newR,newI);
+    }
+    else
+      return new Complex(a.getModulus()/b.getModulus(), Argument.sub(a.getArgument(),b.getArgument()));
   }
   //ta instancja = ta instancja / inny Complex
   public void div(Complex a) {
@@ -109,6 +119,12 @@ public class Complex {
   }
 
   //TODO postać trygonometryczna
+  public Complex pow(int n) {
+    Complex C = new Complex(this);
+    C.setModulus( Math.pow(this.getModulus(), n) );
+    C.setArgument( new Argument( n*this.getArgument().getNm(), this.getArgument().getDnm() ) );
+    return C;
+  }
 
 
 
@@ -116,7 +132,7 @@ public class Complex {
     return real;
   }
   public double getImg() {
-    return img;a
+    return img;
   }
   public double getModulus() {
     return modulus;
@@ -139,6 +155,9 @@ public class Complex {
 
   @Override
   public String toString() {
+    if (argument != null) {
+      return getModulus()+"(cos("+getArgument().getNm()+"PI/"+getArgument().getDnm()+") + i*sin("+getArgument().getNm()+"PI/"+getArgument().getDnm()+"))";
+    }
     if (getImg()==0) {
       return String.valueOf(getReal());
     }

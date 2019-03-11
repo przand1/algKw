@@ -18,5 +18,26 @@ public class VectorTest {
     System.out.println(Vector.dot(v,w));
     System.out.println("NORMA:");
     System.out.println(Vector.norm(v));
+
+    System.out.println("-------------------------------");
+    Complex[] c3 = new Complex[]{new Complex(0,1/Math.sqrt(2)),new Complex(0,-1/Math.sqrt(2))};
+    Vector x = new Vector(c3);
+    System.out.println(x);
+    System.out.println(Vector.dot(x,x));
+    System.out.printf("%.5g%n\n",Vector.dot(x,x).getReal());
+
+    System.out.println("-------------------------------");
+    Complex[] c4 = new Complex[]{new Complex(0.5,0.5),new Complex(0.5,0.5)};
+    Vector xx = new Vector(c4);
+    System.out.println(xx);
+    System.out.println(Vector.dot(xx,xx));
+    System.out.printf("%.5g%n\n",Vector.dot(xx,xx).getReal());
+
+    System.out.println("-------------------------------");
+    Complex[] c5 = new Complex[]{new Complex(Math.cos(45),Math.sin(45)),new Complex(1,0)};
+    Vector xxx = new Vector(c5);
+    System.out.println(xxx);
+    System.out.println(Vector.dot(xxx,xxx));
+    System.out.printf("%.5g%n\n",Vector.dot(xxx,xxx).getReal());
   }
 }

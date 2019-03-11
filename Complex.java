@@ -20,7 +20,7 @@ public class Complex {
   public Complex(Complex a) {
     this(a.getReal(),a.getImg());
     if(a.getArgument() != null)
-      setArgument(a.getArgument());
+      setArgument(a.getArgument());//TODO zmień na kopiowanie!
       setModulus(this.getModulus());
   }
 
@@ -124,6 +124,15 @@ public class Complex {
     C.setModulus( Math.pow(this.getModulus(), n) );
     C.setArgument( new Argument( n*this.getArgument().getNm(), this.getArgument().getDnm() ) );
     return C;
+  }
+
+  public static Complex[] copyArray(Complex[] arr) {
+    int n = arr.length;
+    Complex[] newArr = new Complex[n];
+    for (int i = 0;i < n ; i++ ) {
+      newArr[i] = new Complex(arr[i]);
+    }
+    return newArr;
   }
 
 

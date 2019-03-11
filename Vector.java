@@ -19,8 +19,8 @@ public class Vector {
   }
 
   public static Vector add(Vector v, Vector w) {
-    Complex[] c1 = Arrays.copyOf(v.getCords(),v.getCords().length);
-    Complex[] c2 = Arrays.copyOf(w.getCords(),w.getCords().length);
+    Complex[] c1 = Complex.copyArray(v.getCords());
+    Complex[] c2 = Complex.copyArray(w.getCords());
     int l = c1.length;
     if (l != c2.length) {
       throw new IllegalArgumentException("Vectors can't differ in length.");
@@ -34,15 +34,15 @@ public class Vector {
 
   public static Vector mul(Vector v, Complex c) {
     int l = v.getCords().length;
-    Complex[] newCords = Arrays.copyOf(v.getCords(),l);
+    Complex[] newCords = Complex.copyArray(v.getCords());
     for (int i = 0;i < l ; i++ ) {
       newCords[i].mul(c);
     }
     return new Vector(newCords);
   }
   public static Complex dot(Vector v, Vector w) {
-    Complex[] c1 = Arrays.copyOf(v.getCords(),v.getCords().length);
-    Complex[] c2 = Arrays.copyOf(w.getCords(),w.getCords().length);
+    Complex[] c1 = Complex.copyArray(v.getCords());
+    Complex[] c2 = Complex.copyArray(w.getCords());
     int l = c1.length;
     if (l != c2.length) {
       throw new IllegalArgumentException("Vectors can't differ in length.");
